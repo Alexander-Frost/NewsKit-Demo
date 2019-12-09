@@ -12,24 +12,48 @@ import SwiftSoup
 
 class NewsController {
     
+    // MARK: - Properties
+    
+    var articleLinks: [Article?] = []
+    
     // MARK: - Begin
     
-    func begin(){
-        
+    // We return a list of articles
+    func begin(completion: @escaping ([Article?]) -> Void){
+        scrapeTechmeme { (urlList) in
+            var articleList = [Article]()
+            let group = DispatchGroup()
+            
+            for url in urlList {
+                group.enter()
+
+                guard let link = url else {continue}
+                self.parseArticle(url: link) { (article) in
+                    articleList.append(article)
+                    group.leave()
+                }
+            }
+            group.notify(queue: .main) {
+                self.articleLinks = articleList
+                completion(articleList)
+            }
+        }
     }
     
     // MARK: - Operations
     
 
-    
-    private func scrapeUrls(url: URL) -> [String]? {
+    // This is setup to only scrape articles from techmeme.com
+    // We return an array of article urls
+    func scrapeTechmeme(completion: @escaping ([URL?]) -> Void) {
         do {
-            let html = try String(contentsOf: url)
+            let link = URL(string: "https://www.techmeme.com")
+            let html = try String(contentsOf: link!)
             let doc: Document = try SwiftSoup.parse(html)
-            let div: Elements = try doc.select("ii") // <div></div>
+            let div: Elements = try doc.select("ii")
             let elements = try doc.getAllElements()
             
-            var allUrls = [String]()
+            var allUrls = [URL?]()
             for element in elements {
                 switch element.tagName() {
                 case "div" :
@@ -39,7 +63,8 @@ class NewsController {
                         
                         // We only pull out real urls
                         if let url = url, url.prefix(4) == "http" {
-                            allUrls.append(url)
+                            let link = URL(string: url)
+                            allUrls.append(link)
                         }
                     }
                 default:
@@ -48,34 +73,16 @@ class NewsController {
             }
             
             print("HERE ALL URLS: ", allUrls.count, allUrls)
-//            tempURLs = allUrls
-            return allUrls
+            completion(allUrls)
         } catch {
             // contents could not be loaded
             print("Error loading page contents")
-            return nil
-        }
-        
-    }
-    
-    func extractInfoFromURLs(urls: [String]) {
-        for url in urls {
-            let articleUrl = URL(string: url)!
-            Readability.parse(url: articleUrl, completion: { data in
-                let title = data?.title ?? ""
-                let description = data?.description ?? ""
-                let keywords = data?.keywords ?? []
-                let imageUrl = data?.topImage
-                let videoUrl = data?.topVideo
-                
-                print("title: \(title), keywords \(keywords), top image: \(imageUrl), top video: \(videoUrl)")
-            })
+            completion([])
         }
     }
     
-    
-    private func parseArticle(url: String, completion: @escaping (Article) -> Void) {
-        let articleUrl = URL(string: url)!
+    private func parseArticle(url: URL, completion: @escaping (Article) -> Void) {
+        let articleUrl = url //URL(string: url)!
         Readability.parse(url: articleUrl, completion: { data in
             let title = data?.title ?? ""
             let description = data?.description ?? ""

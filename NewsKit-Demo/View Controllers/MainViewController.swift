@@ -16,21 +16,29 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     // MARK: - Properties
     
+    var articleLinks: [Article?] = []
+
     let foodname = ["club sandwich","burger","pasta","pizza","fries","quadracheetosburger","club sandwich","burger","pasta","pizza","fries","quadracheetosburger"]
+    
+    // MARK: - Instances
+    
+    private let newsController = NewsController()
 
     // MARK: - Outlets
     
     @IBOutlet weak var collectionView: UICollectionView!
     
     // MARK: - VC Lifecycle
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        newsController.begin { (articles) in
+            self.articleLinks = articles
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
         setupUI()
-
-
-
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -62,13 +70,13 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         print("HERE running collectionview")
-        return foodname.count
+        return articleLinks.count //foodname.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customcell", for: indexPath) as! NewsCollectionViewCell
         
-        cell.titleLbl.text = foodname[indexPath.row]
+        cell.titleLbl.text = articleLinks[indexPath.item]?.title //foodname[indexPath.row]
         cell.imageView.image = UIImage(named: "news")
         return cell
     }
