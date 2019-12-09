@@ -24,27 +24,32 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
-        
-        let edge:CGFloat = 21.0
-        
-        let itemsize = (self.collectionView.frame.width / 2.5)
-        
-        let layout = UICollectionViewFlowLayout()
-        
-        layout.sectionInset = UIEdgeInsets(top: edge, left: edge, bottom: edge, right: edge)
-        
-        layout.itemSize = CGSize(width: itemsize, height: itemsize)
-        
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = 0
-        self.collectionView.collectionViewLayout = layout
-        
+        setupUI()
+
+
+
+    }
+    
+    // MARK: - Setup UI
+    
+    private func setupUI(){
+        // Collection View
         collectionView.delegate = self
         collectionView.dataSource = self
         
+        // Flow Layout
+        let edge:CGFloat = 21.0
+        let itemsize = (collectionView.frame.width / 2.5)
+        let layout = UICollectionViewFlowLayout()
+        
+        layout.sectionInset = UIEdgeInsets(top: edge, left: edge, bottom: edge, right: edge)
+        layout.itemSize = CGSize(width: itemsize, height: itemsize)
+        layout.minimumInteritemSpacing = 0
+        layout.minimumLineSpacing = 0
+        collectionView.collectionViewLayout = layout
+        
+        
     }
-    
 
     // MARK: - Collection View
     
@@ -57,7 +62,7 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customcell", for: indexPath) as! NewsCollectionViewCell
         
         cell.titleLbl.text = foodname[indexPath.row]
-        cell.imageView.image = UIImage(named: "art")
+        cell.imageView.image = UIImage(named: "news")
         return cell
     }
 }
