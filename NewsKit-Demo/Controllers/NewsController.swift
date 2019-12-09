@@ -11,7 +11,7 @@ import ReadabilityKit
 
 class NewsController {
     
-    func extractInfoFromURLs(url: String) {
+    func parseArticle(url: String, completion: @escaping (Article) -> Void) {
         let articleUrl = URL(string: url)!
         Readability.parse(url: articleUrl, completion: { data in
             let title = data?.title ?? ""
@@ -22,9 +22,12 @@ class NewsController {
             
             print("title: \(title), keywords \(keywords), top image: \(imageUrl), top video: \(videoUrl)")
             
+            let article = Article(title: title, description: description, keywords: keywords, imageUrl: imageUrl, videoUrl: videoUrl)
+            completion(article)
+            
             DispatchQueue.main.async {
-                self.imageView.downloadImage(from: URL(string: "https://techcrunch.com/wp-content/uploads/2014/02/b0pjcuntzee4hgg07zt84ayv5q37uttg-rr1v3xj2lu.png")!)
-                self.titleLbl.text = title
+                //self.imageView.downloadImage(from: URL(string: "https://techcrunch.com/wp-content/uploads/2014/02/b0pjcuntzee4hgg07zt84ayv5q37uttg-rr1v3xj2lu.png")!)
+//                self.titleLbl.text = title
             }
         })
     }
