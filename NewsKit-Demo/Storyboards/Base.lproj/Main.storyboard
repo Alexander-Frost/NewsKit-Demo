@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NrZ-U8-3SB">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="NrZ-U8-3SB">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="collection view cell content view" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -168,8 +168,6 @@
                                         </collectionViewCellContentView>
                                         <size key="customSize" width="202" height="250"/>
                                         <connections>
-                                            <outlet property="fdimg" destination="e0t-k2-1Sx" id="Ys7-wx-SGZ"/>
-                                            <outlet property="fdname" destination="Mnq-EI-U8s" id="GjG-jF-Tdi"/>
                                             <outlet property="imageView" destination="e0t-k2-1Sx" id="6SH-p5-iWV"/>
                                             <outlet property="titleLbl" destination="Mnq-EI-U8s" id="DBl-9S-zEe"/>
                                         </connections>

@@ -40,6 +40,9 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         layout.minimumLineSpacing = 0
         self.collectionView.collectionViewLayout = layout
         
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        
     }
     
 
