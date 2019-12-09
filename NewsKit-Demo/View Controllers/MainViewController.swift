@@ -10,6 +10,9 @@ import UIKit
 
 class MainViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
     
+    // MARK: - Passed
+    
+    var urlToOpen: URL?
 
     // MARK: - Properties
     
@@ -30,6 +33,12 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
 
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let browserVC = segue.destination as? BrowserViewController {
+             browserVC.receivedLink = urlToOpen
+         }
+    }
+    
     // MARK: - Setup UI
     
     private func setupUI(){
@@ -47,8 +56,6 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
         collectionView.collectionViewLayout = layout
-        
-        
     }
 
     // MARK: - Collection View
@@ -64,5 +71,10 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
         cell.titleLbl.text = foodname[indexPath.row]
         cell.imageView.image = UIImage(named: "news")
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        urlToOpen = URL(string: "https://www.techmeme.com")
+        performSegue(withIdentifier: "web segue", sender: indexPath)
     }
 }
