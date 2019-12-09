@@ -26,6 +26,13 @@ class NewsCollectionViewCell: UICollectionViewCell {
         setupUI()
     }
     
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        article = nil
+        imageView.image = nil
+        titleLbl.text = nil
+    }
+    
     // MARK: - Setup UI
     
     private func setupUI(){

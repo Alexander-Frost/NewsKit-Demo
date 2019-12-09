@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
 
+    // DEPRECATED: - Do Not Edit This - Not Used
+    
     let identifier = "customcell"
     // MARK: - Outlets
     
