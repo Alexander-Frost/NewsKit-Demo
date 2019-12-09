@@ -7,11 +7,28 @@
 //
 
 import UIKit
-//import ReadabilityKit
+import ReadabilityKit
 
 class NewsController {
     
-    
+    func extractInfoFromURLs(url: String) {
+        let articleUrl = URL(string: url)!
+        Readability.parse(url: articleUrl, completion: { data in
+            let title = data?.title ?? ""
+            let description = data?.description ?? ""
+            let keywords = data?.keywords ?? []
+            let imageUrl = data?.topImage
+            let videoUrl = data?.topVideo
+            
+            print("title: \(title), keywords \(keywords), top image: \(imageUrl), top video: \(videoUrl)")
+            
+            DispatchQueue.main.async {
+                self.imageView.downloadImage(from: URL(string: "https://techcrunch.com/wp-content/uploads/2014/02/b0pjcuntzee4hgg07zt84ayv5q37uttg-rr1v3xj2lu.png")!)
+                self.titleLbl.text = title
+            }
+        })
+    }
     
     
 }
+
