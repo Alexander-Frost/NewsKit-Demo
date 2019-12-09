@@ -9,6 +9,7 @@
 import Foundation
 
 struct Article {
+    let url: URL
     let title: String
     let description: String
     let keywords: [String?]

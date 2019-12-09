@@ -69,20 +69,19 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // MARK: - Collection View
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("HERE running collectionview")
-        return articleLinks.count //foodname.count
+        return articleLinks.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customcell", for: indexPath) as! NewsCollectionViewCell
         
-        cell.titleLbl.text = articleLinks[indexPath.item]?.title //foodname[indexPath.row]
-        cell.imageView.image = UIImage(named: "news")
+        cell.article = articleLinks[indexPath.item]
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        urlToOpen = URL(string: "https://www.techmeme.com")
+        let link = articleLinks[indexPath.item]?.url
+        urlToOpen = link
         performSegue(withIdentifier: "web segue", sender: indexPath)
     }
 }

@@ -10,12 +10,14 @@ import UIKit
 
 class NewsCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - Received
+    
+    var article: Article?
+    
     // MARK: - Outlets
     
     @IBOutlet weak var imageView: UIImageView!
-    
     @IBOutlet weak var titleLbl: UILabel!
-    
     
     // MARK: - VC Lifecycle
     
@@ -28,10 +30,16 @@ class NewsCollectionViewCell: UICollectionViewCell {
     
     private func setupUI(){
         // Image View
+        guard let article = article else {return}
+        guard let fImageUrl = article.imageUrl else {return}
+        guard let imageUrl = URL(string: fImageUrl) else {return}
+        
+        imageView.downloadImage(from: imageUrl, contentMode: .scaleAspectFit)
         imageView.contentMode = .scaleAspectFit
         imageView.layer.cornerRadius = 8.0
         imageView.layer.masksToBounds = true
         
-        
+        // Title Label
+        titleLbl.text = article.title
     }
 }

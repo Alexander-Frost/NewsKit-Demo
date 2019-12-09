@@ -16,7 +16,7 @@ class NewsController {
     
     var articleLinks: [Article?] = []
     
-    // MARK: - Begin
+    // MARK: - Init
     
     // We return a list of articles
     func begin(completion: @escaping ([Article?]) -> Void){
@@ -42,10 +42,9 @@ class NewsController {
     
     // MARK: - Operations
     
-
     // This is setup to only scrape articles from techmeme.com
     // We return an array of article urls
-    func scrapeTechmeme(completion: @escaping ([URL?]) -> Void) {
+    private func scrapeTechmeme(completion: @escaping ([URL?]) -> Void) {
         do {
             let link = URL(string: "https://www.techmeme.com")
             let html = try String(contentsOf: link!)
@@ -89,19 +88,10 @@ class NewsController {
             let keywords = data?.keywords ?? []
             let imageUrl = data?.topImage
             let videoUrl = data?.topVideo
-            
-            print("title: \(title), keywords \(keywords), top image: \(imageUrl), top video: \(videoUrl)")
-            
-            let article = Article(title: title, description: description, keywords: keywords, imageUrl: imageUrl, videoUrl: videoUrl)
+                        
+            let article = Article(url: articleUrl, title: title, description: description, keywords: keywords, imageUrl: imageUrl, videoUrl: videoUrl)                
             completion(article)
-            
-            DispatchQueue.main.async {
-                //self.imageView.downloadImage(from: URL(string: "https://techcrunch.com/wp-content/uploads/2014/02/b0pjcuntzee4hgg07zt84ayv5q37uttg-rr1v3xj2lu.png")!)
-//                self.titleLbl.text = title
-            }
         })
     }
-    
-    
 }
 
