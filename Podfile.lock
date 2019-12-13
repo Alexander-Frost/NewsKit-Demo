@@ -1,0 +1,24 @@
+PODS:
+  - Ji (5.0.0)
+  - ReadabilityKit (0.7.3):
+    - Ji (= 5.0.0)
+  - SwiftSoup (2.2.2)
+
+DEPENDENCIES:
+  - ReadabilityKit
+  - SwiftSoup
+
+SPEC REPOS:
+  trunk:
+    - Ji
+    - ReadabilityKit
+    - SwiftSoup
+
+SPEC CHECKSUMS:
+  Ji: d795fed288fe78658b404c88946d753b17d8d7f4
+  ReadabilityKit: d28ec50a317067fd1c06aa6518b05171bb19ce47
+  SwiftSoup: 77147d707df716eb6dbd06c5c24d35ad5ba62ee1
+
+PODFILE CHECKSUM: 278d115c3b6eec8f242e321d448a51049e80d650
+
+COCOAPODS: 1.8.4

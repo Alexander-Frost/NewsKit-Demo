@@ -41,10 +41,17 @@ class NewsCollectionViewCell: UICollectionViewCell {
         guard let fImageUrl = article.imageUrl else {return}
         guard let imageUrl = URL(string: fImageUrl) else {return}
         
-        imageView.downloadImage(from: imageUrl, contentMode: .scaleAspectFit)
-        imageView.contentMode = .scaleAspectFit
+        let workItem = DispatchWorkItem { [weak self] in
+            self?.imageView.downloadImage(from: imageUrl, contentMode: .scaleAspectFit)
+        }
+        DispatchQueue.global().async {
+            workItem.perform()
+        }
+        
+        
+        imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 8.0
-        imageView.layer.masksToBounds = true
+        imageView.clipsToBounds = true
         
         // Title Label
         titleLbl.text = article.title
