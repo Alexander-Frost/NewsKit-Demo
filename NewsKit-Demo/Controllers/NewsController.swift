@@ -53,6 +53,7 @@ class NewsController {
             let elements = try doc.getAllElements()
             
             var allUrls = [URL?]()
+            print("elements", elements.count)
             for element in elements {
                 switch element.tagName() {
                 case "div" :
@@ -61,7 +62,7 @@ class NewsController {
                         let url = try? element.select("a").attr("href")
                         
                         // We only pull out real urls
-                        if let url = url, url.prefix(4) == "http" {
+                        if let url = url, url.prefix(5) == "https" {
                             let link = URL(string: url)
                             allUrls.append(link)
                         }

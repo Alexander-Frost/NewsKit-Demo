@@ -13,7 +13,6 @@ class NewsCollectionViewCell: UICollectionViewCell {
     // MARK: - Received
     
     var article: Article?
-    var taskToCancel: DispatchWorkItem?
     
     // MARK: - Outlets
     
@@ -24,15 +23,14 @@ class NewsCollectionViewCell: UICollectionViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        taskToCancel?.cancel()
         setupUI()
     }
     
     override func prepareForReuse() {
         super.prepareForReuse()
-        article = nil
-        imageView.image = nil
-        titleLbl.text = nil
+//        article = nil
+//        imageView.image = nil
+//        titleLbl.text = nil
     }
     
     // MARK: - Setup UI
@@ -42,15 +40,6 @@ class NewsCollectionViewCell: UICollectionViewCell {
         guard let article = article else {return}
         guard let fImageUrl = article.imageUrl else {return}
         guard let imageUrl = URL(string: fImageUrl) else {return}
-        
-        let workItem = DispatchWorkItem { [weak self] in
-            self?.imageView.downloadImage(from: imageUrl)
-        }
-        taskToCancel = workItem
-        DispatchQueue.global().async {
-            workItem.perform()
-            
-        }
         
         
         imageView.contentMode = .scaleAspectFill

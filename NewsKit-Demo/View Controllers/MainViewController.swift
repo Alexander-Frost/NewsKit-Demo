@@ -17,8 +17,8 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // MARK: - Properties
     
     var articleLinks: [Article?] = []
-
-    let foodname = ["club sandwich","burger","pasta","pizza","fries","quadracheetosburger","club sandwich","burger","pasta","pizza","fries","quadracheetosburger"]
+    var cacheToCancel: [UICollectionViewCell: DispatchWorkItem] = [:]
+    var imageCache: [String: UIImage] = [:]
     
     // MARK: - Instances
     
@@ -69,13 +69,40 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
     // MARK: - Collection View
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        print("count of cell", articleLinks.count)
         return articleLinks.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customcell", for: indexPath) as! NewsCollectionViewCell
         
-        cell.article = articleLinks[indexPath.item]
+       
+        let article = articleLinks[indexPath.item]
+        cell.article = article
+        if let image = imageCache[article?.title ?? ""] {
+            cell.imageView.image = image
+        } else {
+            if let taskToCancel = cacheToCancel[cell] {
+                taskToCancel.cancel()
+            }
+            if let imageUrl = URL(string: article?.imageUrl ?? "") {
+                let workItem = DispatchWorkItem {
+                    cell.imageView.downloadImage(from: imageUrl) { (image) in
+                        if let title = article?.title {
+                            self.imageCache[title] = image
+                        }
+                    }
+                }
+                cacheToCancel[cell] = workItem
+                
+                DispatchQueue.global().async {
+                    workItem.perform()
+                    
+                }
+            }
+        }
+        
+        
         return cell
     }
     

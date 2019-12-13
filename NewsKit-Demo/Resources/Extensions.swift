@@ -9,7 +9,7 @@
 import UIKit
 
 extension UIImageView {
-    func downloadImage(from url: URL) {
+    func downloadImage(from url: URL, completion: @escaping (UIImage) -> Void = {_ in }) {
         URLSession.shared.dataTask(with: url) { data, response, error in
             guard
                 let httpURLResponse = response as? HTTPURLResponse,
@@ -17,10 +17,13 @@ extension UIImageView {
                 let data = data, error == nil,
                 let image = UIImage(data: data)
                 else { return print("HERE PROBLEM")}
+            
             DispatchQueue.main.async() {
                 print("Image data: ", data, image)
                 self.image = image
+                
             }
+            completion(image)
         }.resume()
     }
     func downloaded(from link: String, contentMode mode: UIView.ContentMode = .scaleAspectFit) {  // for swift 4.2 syntax just use ===> mode: UIView.ContentMode
