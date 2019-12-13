@@ -38,15 +38,15 @@ class NewsCollectionViewCell: UICollectionViewCell {
     private func setupUI(){
         // Image View
         guard let article = article else {return}
-        guard let fImageUrl = article.imageUrl else {return}
-        guard let imageUrl = URL(string: fImageUrl) else {return}
-        
+        // Title Label
+        titleLbl.text = article.title
+        titleLbl.layer.cornerRadius = 8.0
+        titleLbl.clipsToBounds = true
         
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 8.0
         imageView.clipsToBounds = true
         
-        // Title Label
-        titleLbl.text = article.title
+        
     }
 }

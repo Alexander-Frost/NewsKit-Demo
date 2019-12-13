@@ -79,12 +79,12 @@ class MainViewController: UIViewController, UICollectionViewDelegate, UICollecti
        
         let article = articleLinks[indexPath.item]
         cell.article = article
+        if let taskToCancel = cacheToCancel[cell] {
+            taskToCancel.cancel()
+        }
         if let image = imageCache[article?.title ?? ""] {
             cell.imageView.image = image
         } else {
-            if let taskToCancel = cacheToCancel[cell] {
-                taskToCancel.cancel()
-            }
             if let imageUrl = URL(string: article?.imageUrl ?? "") {
                 let workItem = DispatchWorkItem {
                     cell.imageView.downloadImage(from: imageUrl) { (image) in
