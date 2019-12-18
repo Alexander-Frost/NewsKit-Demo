@@ -16,3 +16,5 @@ struct Article {
     let imageUrl: String?
     let videoUrl: String?
 }
+
+// TOM NEEDS: Id, Article Url, Description, Interests

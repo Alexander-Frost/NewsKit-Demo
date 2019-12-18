@@ -9,7 +9,7 @@ DEPENDENCIES:
   - SwiftSoup
 
 SPEC REPOS:
-  trunk:
+  https://github.com/cocoapods/specs.git:
     - Ji
     - ReadabilityKit
     - SwiftSoup
@@ -21,4 +21,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 278d115c3b6eec8f242e321d448a51049e80d650
 
-COCOAPODS: 1.8.4
+COCOAPODS: 1.6.1

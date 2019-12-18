@@ -64,7 +64,10 @@ class NewsController {
                         // We only pull out real urls
                         if let url = url, url.prefix(5) == "https" {
                             let link = URL(string: url)
-                            allUrls.append(link)
+                            
+                            if !allUrls.contains(link) {
+                                allUrls.append(link)
+                            }
                         }
                     }
                 default:
